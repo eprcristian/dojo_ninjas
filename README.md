@@ -37,18 +37,18 @@ end
 ```
 ## Creacion de dojos
 # Dojo
-# Haga que incluya el nombre del dojo, la ciudad y el estado de cada dojo.
-# Haga que el primero dojo sea "CodingDojo Silicon Valley" en "Mountain View", "CA".
-# Haga que el segundo dojo sea "CodingDojo Seattle" en "Seattle", "WA".
-# Haga que el tercer dojo sea "CodingDojo New York" en "New York", "NY".
+ * Haga que incluya el nombre del dojo, la ciudad y el estado de cada dojo.
+ * Haga que el primero dojo sea "CodingDojo Silicon Valley" en "Mountain View", "CA".
+ * Haga que el segundo dojo sea "CodingDojo Seattle" en "Seattle", "WA".
+ * Haga que el tercer dojo sea "CodingDojo New York" en "New York", "NY".
 Dojo.create(name:"CodingDojo Silicon Valley", city:"Mountain View", state:"CA")
 Dojo.create(name:"CodingDojo Seattle", city:"Seattle", state:"WA")
 Dojo.create(name:"CodingDojo New York", city:"New York", state:"NY")
 ## Creacion de Ninja
 # Ninja
-# Haga que incluya el nombre y apellido de cada ninja en el dojo.
-# Cada dojo puede tener múltiples ninjas y cada ninja pertenece a un dojo específico.
-# Cree 3 ninjas que pertenezcan al primer dojo que creó.
+ * Haga que incluya el nombre y apellido de cada ninja en el dojo.
+ * Cada dojo puede tener múltiples ninjas y cada ninja pertenece a un dojo específico.
+ * Cree 3 ninjas que pertenezcan al primer dojo que creó.
 Ninja.create(first_name:"Juan", last_name:"Perez",dojo_id:1)
 Ninja.create(first_name:"Maria", last_name:"Lopez",dojo_id:1)
 Ninja.create(first_name:"Manuel", last_name:"Hernandez",dojo_id:1)
@@ -64,9 +64,12 @@ Ninja.create(first_name:"Carolina", last_name:"Perez",dojo_id:3)
 dojo = Dojo.new(name:"CodingDojo Chile", city:"Santiago", state:"ST") 
 dojo.save
 # Intente crear algunos dojos adicionales pero sin especificar algunos de los campos requeridos. Asegúrese que las validaciones están funcionando y que le devuelve los mensajes de error.
+```
 Dojo.create!(name:"", city:"", state:"")
 C:/Ruby31-x64/lib/ruby/gems/3.1.0/gems/activerecord-6.1.6/lib/active_record/validations.rb:80:in `raise_validation_error': Validation failed: Name can't be blank, City can't be blank, State can't be blank, State is the wrong length (should be 2 characters) (ActiveRecord::RecordInvalid)
+```
 # Asegúrate de entender cómo obtener todos los ninjas para cualquier dojo (ej. obtener todos los ninjas para el primer dojo, segundo dojo, etc).
+```
 Dojo.find(1).ninjas
 Dojo Load (1.0ms)  SELECT "dojos".* FROM "dojos" WHERE "dojos"."id" = ? LIMIT ?  [["id", 1], ["LIMIT", 1]]
   Ninja Load (0.7ms)  SELECT "ninjas".* FROM "ninjas" WHERE "ninjas"."dojo_id" = ?  [["dojo_id", 1]]
@@ -92,16 +95,20 @@ Dojo Load (1.0ms)  SELECT "dojos".* FROM "dojos" WHERE "dojos"."id" = ? LIMIT ? 
   dojo_id: 1,
   created_at: Tue, 26 Jul 2022 01:23:24.129100000 UTC +00:00,
   updated_at: Tue, 26 Jul 2022 01:23:24.129100000 UTC +00:00>]
+  ```
  # ¿Cómo recuperar solo el nombre de los ninjas que pertenecen al segundo dojo y ordenar el resultado por created_at en orden descendiente?
    Dojo.find(2).ninjas.order('created_at DESC')
  # Elimine el segundo dojo. ¿Cómo podrías ajustar tu modelo para que automáticamente elimine todos los ninjas asociados con ese dojo?
  class Dojo < ApplicationRecord
    ## before_destroy { ninjas.destroy_all }
+   ```
     has_many :ninjas
     validates :name, presence: true
     validates :city, presence: true
     validates :state, presence: true, length: { is:2 }
 end
+```
+```
 -> Dojo.find(2).destroy
 irb(main):003:0> Dojo.find(2).destroy
   Dojo Load (0.7ms)  SELECT "dojos".* FROM "dojos" WHERE "dojos"."id" = ? LIMIT ?  [["id", 2], ["LIMIT", 1]]
